@@ -1,7 +1,7 @@
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.chat_models import ChatOpenAI
-from langchain.chains import ConversationalRetrievalChain
+#from langchain.chains import ConversationalRetrievalChain
 from langchain.chains import RetrievalQAWithSourcesChain
 from templates.system_prompt import SYSTEM_PROMPT_CN
 import os
@@ -29,9 +29,9 @@ def query(chain, question):
     response = chain({"question": question})
     return response['answer']
 
-def get_chain(persist_directory, system_prompt):
+def get_chain(persist_directory):
     db = FAISS.load_local(persist_directory, _get_embeddings())
-    chain_type_kwargs = {"prompt": system_prompt}
+    chain_type_kwargs = {"prompt": get_system_prompt()}
     model = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0,
                        openai_api_key=get_openai_api_key(), streaming=True)
     chain = RetrievalQAWithSourcesChain.from_chain_type(

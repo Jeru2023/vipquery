@@ -2,26 +2,25 @@ import openai
 import toml
 import streamlit as st
 from streamlit_option_menu import option_menu
+import embeddings.query as qa_chain
 import os
+
 
 st.set_page_config(page_title='ChatGPT Assistant', layout='wide', page_icon='🍋')
 
 #################################################################
 ##### Loading config
 #################################################################
-with open(".streamlit/secrets.toml", "r") as f:
-	config = toml.load(f)
+persist_directory = "db"
+source_directory = "docs"
 
-openai.api_key = config["OPENAI_KEY"]
 os.environ["http_proxy"]="http://127.0.0.1:7890"
 os.environ["https_proxy"]="http://127.0.0.1:7890"
-
-BASE_PROMPT = [{"role": "system", "content": "You are a helpful assistant."}]
 
 #################################################################
 ##### Generate response function
 #################################################################
-def generate_response(message_log):
+def generate_response_backup(message_log):
     """
     Use OpenAI's ChatCompletion API to get the chatbot's response.
     """
@@ -44,6 +43,17 @@ def generate_response(message_log):
     # If no text response is found, return the first response's content (which may be empty)
     return response.choices[0].message.content
 
+def generate_response(question):
+	chain = qa_chain.get_chain(persist_directory)
+	response = qa_chain.query(chain, question)
+	return response
+
+def test_query():
+    print(question)
+    chain = qa_chain.get_chain(persist_directory)
+    question = "请总结一下用户的负面评论"
+    response = qa_chain.query(chain, question)
+    print(response)
 
 #################################################################
 ##### Building sidebar
@@ -88,10 +98,14 @@ st.header("Welcome to Jeru's CHATBOT 🍋")
 
 prompt = st.text_input("Prompt", placeholder="Enter your message here...")
 
+#st.text(print('hello'))
+#st.text(test_query())
+
 if st.button("Send"):
 	with st.spinner("Generating response..."):
 		message_log.append({"role": "user", "content": prompt})
-		output = generate_response(message_log)
+		#output = generate_response(message_log)
+		output = generate_response(prompt)
 		message_log.append({"role": "assistant", "content": output})
     	#store the output
 		st.session_state['past'].append(prompt)
