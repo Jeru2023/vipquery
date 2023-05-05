@@ -1,10 +1,4 @@
-# streamlit-chat
-
-This is a Streamlit chatbox demo working with chatGPT. But due to the restriction of text_area component, only pure text format supported in the chat box.
-
-I'm going to implement another version in next project with cool features like voice chat, langchain integration with private API etc.
-
-Note: sidebar and topbar reactions are not implemented yet.
+# VIP Query
 
 ![image](https://github.com/Jeru2023/streamlit-chat/blob/main/image/screen.jpg?raw=true)
 
