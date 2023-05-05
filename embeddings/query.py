@@ -3,7 +3,8 @@ from langchain.vectorstores import FAISS
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import ConversationalRetrievalChain
 from langchain.chains import RetrievalQAWithSourcesChain
-from templates.system_prompt import SYSTEM_PROMPT
+from templates.system_prompt import SYSTEM_PROMPT_CN
+import os
 import toml
 
 from langchain.prompts.chat import (
@@ -18,16 +19,23 @@ def query():
     model = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0.5,
                        openai_api_key=get_openai_api_key(), streaming=True)  # max temperature is 2 least is 0
     retriever = db.as_retriever(search_kwargs={
-                                         "k": sources},  qa_template=SYSTEM_PROMPT, question_generator_template=CONDENSE_PROMPT)  # 9 is the max sources
+                                         "k": sources},  qa_template=SYSTEM_PROMPT_CN, question_generator_template=CONDENSE_PROMPT)  # 9 is the max sources
     qa = ConversationalRetrievalChain.from_llm(
         llm=model, retriever=retriever, return_source_documents=True)
     return qa
 '''
 
-def get_chain(db,system_prompt):
+def query(chain, question):
+    response = chain({"question": question})
+    return response['answer']
+
+def get_chain(persist_directory, system_prompt):
+    db = FAISS.load_local(persist_directory, _get_embeddings())
     chain_type_kwargs = {"prompt": system_prompt}
+    model = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0,
+                       openai_api_key=get_openai_api_key(), streaming=True)
     chain = RetrievalQAWithSourcesChain.from_chain_type(
-        ChatOpenAI(temperature=0), 
+        llm=model, 
         chain_type="stuff", 
         retriever=db.as_retriever(),
         chain_type_kwargs=chain_type_kwargs,
@@ -37,7 +45,7 @@ def get_chain(db,system_prompt):
 
 def get_system_prompt():
     messages = [
-        SystemMessagePromptTemplate.from_template(SYSTEM_PROMPT),
+        SystemMessagePromptTemplate.from_template(SYSTEM_PROMPT_CN),
         HumanMessagePromptTemplate.from_template("{question}")
     ]
     prompt = ChatPromptTemplate.from_messages(messages)
@@ -48,7 +56,7 @@ def _get_embeddings():
     embeddings = HuggingFaceEmbeddings(model_name = model)
     return embeddings
 
-def get_openai_api_key() -> str:
+def get_openai_api_key():
     with open(".streamlit/secrets.toml", "r") as secrets_file:
         secrets = toml.load(secrets_file)
     return secrets["OPENAI_KEY"]
