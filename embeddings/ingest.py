@@ -7,10 +7,12 @@ def _get_embeddings():
     embeddings = HuggingFaceEmbeddings(model_name = model)
     return embeddings
 
-def ingest():
-    loader = DirectoryLoader('./data', glob='**/*.txt')
+def ingest(source_directory, persist_directory):
+    loader = DirectoryLoader(source_directory, glob='**/*.txt')
     documents = loader.load()    
     
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000, chunk_overlap=0
     )
+    documents = text_splitter.split_documents(documents)
+    embeddings = _get_embeddings()
