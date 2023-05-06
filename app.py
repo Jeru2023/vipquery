@@ -4,7 +4,8 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 import embeddings.query as qa_chain
 import os
-
+import tkinter as tk
+from tkinter import filedialog
 
 st.set_page_config(page_title='ChatGPT Assistant', layout='wide', page_icon='🍋')
 
@@ -48,15 +49,8 @@ def generate_response(question):
 	response = qa_chain.query(chain, question)
 	return response
 
-def test_query():
-    print(question)
-    chain = qa_chain.get_chain(persist_directory)
-    question = "请总结一下用户的负面评论"
-    response = qa_chain.query(chain, question)
-    print(response)
-
 #################################################################
-##### Building sidebar
+##### Building topbar
 #################################################################
 topbar = option_menu(None, ["Home", "Upload",  "Tasks", 'Settings'], 
 	icons=['house', 'cloud-upload', "list-task", 'gear'], 
@@ -66,22 +60,46 @@ topbar = option_menu(None, ["Home", "Upload",  "Tasks", 'Settings'],
 	}
 )	
 
+#################################################################
+##### Building sidebar
+#################################################################
 with st.sidebar:
-	# st.header("Control Panel")
-	st.markdown("# Control Panel 📌")
-	context_level = st.slider('Context Level 👇', 1, 10, 4, 1)
-	temperature = st.slider('Temperature 👇', 0.0, 2.0, 1.0, 0.5)
-	top_p = st.slider('Top P 👇', 0.1, 1.0, 1.0, 0.1)
-	presence_penalty = st.slider('Presence Penalty 👇', -2.0, 2.0, 0.0, 0.1)
-	frequency_penalty = st.slider('Frequence Penalty 👇', -2.0, 2.0, 0.0, 0.1)
-	#https://platform.openai.com/docs/api-reference/completions/create
 
-	
-	uploaded_files = st.file_uploader("Choose a PDF file", accept_multiple_files=True)
-	for uploaded_file in uploaded_files:
-		bytes_data = uploaded_file.read()
-		st.write("filename:", uploaded_file.name)
-		st.write(bytes_data)
+    filelist=[]
+    for root, dirs, files in os.walk("embeddings"):
+        for file in files:
+             filename=os.path.join(root, file)
+             filelist.append(filename)
+        st.write(filelist)
+
+    # Set up tkinter
+    root = tk.Tk()
+    root.withdraw()
+
+    # Make folder picker dialog appear on top of other windows
+    root.wm_attributes('-topmost', 1)
+
+    # Folder picker button
+    st.title('Folder Picker')
+    st.write('Please select a folder:')
+    clicked = st.button('Folder Picker')
+    if clicked:
+        dirname = st.text_input('Selected folder:', filedialog.askdirectory(master=root))
+    
+    st.header("Control Panel")
+    st.markdown("# Control Panel 📌")
+    context_level = st.slider('Context Level 👇', 1, 10, 4, 1)
+    temperature = st.slider('Temperature 👇', 0.0, 2.0, 1.0, 0.5)
+    top_p = st.slider('Top P 👇', 0.1, 1.0, 1.0, 0.1)
+    presence_penalty = st.slider('Presence Penalty 👇', -2.0, 2.0, 0.0, 0.1)
+    frequency_penalty = st.slider('Frequence Penalty 👇', -2.0, 2.0, 0.0, 0.1)
+	#https://platform.openai.com/docs/api-reference/completions/create
+    
+    uploaded_files = st.file_uploader("Choose a PDF file", accept_multiple_files=True)
+    for uploaded_file in uploaded_files:
+        bytes_data = uploaded_file.read()
+        st.write("filename:", uploaded_file.name)
+        st.write(bytes_data)
 
 #################################################################
 ##### Chatbox
@@ -115,6 +133,3 @@ if st.session_state['generated']:
 	for i in range(len(st.session_state['generated'])-1, -1, -1):
 		st.markdown(f'''<div style='background:white;color:black;padding:10px'><b>**AI:**</b> {st.session_state["generated"][i]}</div>''',unsafe_allow_html=True)
 		st.markdown(f'''<div style='background:#ddd;color:black;padding:10px'><b>**You:**</b> {st.session_state["past"][i]}</div>''',unsafe_allow_html=True)
-
-
-
