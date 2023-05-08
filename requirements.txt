@@ -3,4 +3,4 @@ streamlit
 streamlit-option-menu
 toml
 langchain
-sentence_transformer
+sentence_transformers
