@@ -5,3 +5,4 @@ toml
 langchain
 sentence_transformers
 faiss-cpu
+tiktoken
