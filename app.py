@@ -18,7 +18,7 @@ os.environ["https_proxy"]="http://127.0.0.1:7890"
 #################################################################
 ##### Generate response function
 #################################################################
-def generate_response(question):
+def generate_response(question, persist_directory):
 	chain = qa_chain.get_chain(persist_directory)
 	response = qa_chain.query(chain, question)
 	return response
@@ -27,7 +27,7 @@ def generate_response(question):
 ##### Building sidebar
 #################################################################
 with st.sidebar:
-
+    '''
     filelist=[]
     for root, dirs, files in os.walk("embeddings"):
         for file in files:
@@ -37,7 +37,7 @@ with st.sidebar:
 
     # Set up tkinter
     root = tk.Tk()
-    root.withdraw()
+    root.withdraw()'''
 
     # Make folder picker dialog appear on top of other windows
     root.wm_attributes('-topmost', 1)
@@ -101,7 +101,8 @@ if prompt:
 	with st.spinner("Generating response..."):
 		message_log.append({"role": "user", "content": prompt})
 		#output = generate_response(message_log)
-		output = generate_response(prompt)
+		print("persist_directory: ", persist_directory)
+		output = generate_response(prompt, persist_directory)
 		message_log.append({"role": "assistant", "content": output})
     	#store the output
 		st.session_state['past'].append(prompt)

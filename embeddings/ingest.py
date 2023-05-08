@@ -2,8 +2,11 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import DirectoryLoader
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
+import sys 
+sys.path.append("..") 
+from utils.folder_updater import folder_updater
 
-def ingest(source_directory: str, persist_directory: str) -> FAISS:
+def ingest(dataset_name: str) -> FAISS:
     """
     Ingests text documents from a source directory, processes them,
     and saves them to a persist directory.
@@ -15,6 +18,11 @@ def ingest(source_directory: str, persist_directory: str) -> FAISS:
     Returns:
         FAISS: A FAISS index containing document embeddings.
     """
+    fu = folder_updater()
+    folder_id = fu.query_uuid(dataset_name)
+    persist_directory = f"./db/{folder_id}"
+    source_directory = f"upload/{folder_id}"
+
     # Load text documents from source directory
     loader = DirectoryLoader(source_directory, glob='**/*.txt')
     documents = loader.load()

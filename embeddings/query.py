@@ -3,9 +3,12 @@ from langchain.vectorstores import FAISS
 from langchain.chat_models import ChatOpenAI
 #from langchain.chains import ConversationalRetrievalChain
 from langchain.chains import RetrievalQAWithSourcesChain
-from templates.system_prompt import SYSTEM_PROMPT_CN
 import os
 import toml
+import sys 
+sys.path.append("..") 
+from templates.system_prompt import SYSTEM_PROMPT_CN
+
 
 from langchain.prompts.chat import (
     ChatPromptTemplate,

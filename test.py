@@ -17,7 +17,7 @@ source_directory = f"upload/{folder2_id}"
 
 # check if db persisted
 def test_ingest():
-    db = ingest(source_directory, persist_directory)
+    db = ingest(folder_name)
 
 def test_query(text):
     print(persist_directory)
@@ -35,7 +35,4 @@ def test_query(text):
 print(fu.get_key_list())
 
 folder_name='Seesaw负面评论2022年1-4月'
-folder_id = 'a43276be-e6f9-415c-bd83-d17c0bcf4605'
-persist_directory = f"./db/{folder_id}"
-source_directory = f"upload/{folder_id}"
-test_ingest()
+ingest(folder_name)
