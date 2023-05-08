@@ -12,9 +12,6 @@ st.set_page_config(page_title='ChatGPT Assistant', layout='wide', page_icon='�
 #################################################################
 ##### Loading config
 #################################################################
-persist_directory = "db"
-source_directory = "docs"
-
 os.environ["http_proxy"]="http://127.0.0.1:7890"
 os.environ["https_proxy"]="http://127.0.0.1:7890"
 
@@ -82,13 +79,20 @@ st.header("Welcome to Jeru's CHATBOT 🍋")
 
 fu = folder_updater()
 keys_list = fu.get_key_list()
-options = st.multiselect(
+
+
+st.session_state.options = st.multiselect(
     '请选择你要对话的数据集:(未来可多选，暂时请单选)',
     keys_list,
-    list(keys_list)[0])
 
-# st.write('当前数据集:', options)
-# options为选项
+    )
+options = st.session_state.options
+
+if (len(options)>0):    
+    print('dic is: ', str(fu.get_dict()))
+    folder = fu.query_uuid(options[0])
+    print('folder is: ', folder)
+    persist_directory = f"db/{folder}"
 
 prompt = st.text_input("输入问题后回车", placeholder="Enter your message here...")
 
