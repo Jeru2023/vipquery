@@ -12,6 +12,9 @@ class folder_updater:
             with open(self.config_path, 'r') as f:
                 folder_dict = json.load(f) 
         return folder_dict
+    
+    def get_key_list(self):
+        return self.get_dict().keys()
 
     def update_dict(self, folder, value, folder_dict):
         pair = {folder : value}

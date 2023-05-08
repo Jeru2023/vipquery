@@ -5,6 +5,7 @@ import embeddings.query as qa_chain
 import os
 import tkinter as tk
 from tkinter import filedialog
+from utils.folder_updater import folder_updater
 
 st.set_page_config(page_title='ChatGPT Assistant', layout='wide', page_icon='🍋')
 
@@ -79,10 +80,12 @@ message_log = [{"role": "user", "content": "hi"}]
 	
 st.header("Welcome to Jeru's CHATBOT 🍋")
 
+fu = folder_updater()
+keys_list = fu.get_key_list()
 options = st.multiselect(
-    '请选择你要对话的数据集:(可多选)',
-    ['火锅评论', '天猫麦片爆款', 'Transformer解读-3篇'],
-    ['火锅评论'])
+    '请选择你要对话的数据集:(未来可多选，暂时请单选)',
+    keys_list,
+    list(keys_list)[0])
 
 # st.write('当前数据集:', options)
 # options为选项

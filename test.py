@@ -27,4 +27,6 @@ def test_query(text):
 #text = '用最简单的语言解释transformer是什么'
 #test_query(text)'''
 
-print(fu.query_uuid('火锅负面评价_1篇'))
+print(fu.query_uuid('Transformer解读-3篇'))
+
+print(fu.get_key_list())
