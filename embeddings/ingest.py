@@ -18,12 +18,14 @@ def ingest(source_directory: str, persist_directory: str) -> FAISS:
     # Load text documents from source directory
     loader = DirectoryLoader(source_directory, glob='**/*.txt')
     documents = loader.load()
+    print(documents)
 
     # Split text into chunks
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000, chunk_overlap=0
     )
     docs = text_splitter.split_documents(documents)
+    print(docs)
 
     # Get document embeddings and store them in a FAISS index
     embeddings = _get_embeddings()

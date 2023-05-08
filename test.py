@@ -1,17 +1,22 @@
 from embeddings.ingest import ingest
 import embeddings.query as qa_chain
 
-persist_directory = "db"
-source_directory = "docs"
+folder1 = "火锅负面评价_1篇"
+folder2 = "Transformer解读-3篇"
+persist_directory = f"./db/{folder1}"
+source_directory = f"upload/{folder2}"
 
 # check if db persisted
 def test_ingest():
     db = ingest(source_directory, persist_directory)
 
-def test_query():
+def test_query(text):
+    print(persist_directory)
     chain = qa_chain.get_chain(persist_directory)
-    question = "总结一下用户的负面评论"
+    question = text
     response = qa_chain.query(chain, question)
     print(response)
 
-test_query()
+#test_ingest()
+text = '用最简单的语言解释transformer是什么'
+test_query(text)
