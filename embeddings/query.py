@@ -35,8 +35,9 @@ def query(chain, question):
 def get_chain(persist_directory):
     db = FAISS.load_local(persist_directory, _get_embeddings())
     chain_type_kwargs = {"prompt": get_system_prompt()}
+    openai_api_key = os.environ['OPENAI_API_KEY']
     model = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0,
-                       openai_api_key=get_openai_api_key(), streaming=True)
+                       openai_api_key=openai_api_key, streaming=True)
     chain = RetrievalQAWithSourcesChain.from_chain_type(
         llm=model, 
         chain_type="stuff", 

@@ -27,29 +27,6 @@ def generate_response(question, persist_directory):
 ##### Building sidebar
 #################################################################
 with st.sidebar:
-    '''
-    filelist=[]
-    for root, dirs, files in os.walk("embeddings"):
-        for file in files:
-             filename=os.path.join(root, file)
-             filelist.append(filename)
-        st.write(filelist)
-
-    # Set up tkinter
-    root = tk.Tk()
-    root.withdraw()'''
-
-    # Make folder picker dialog appear on top of other windows
-    root.wm_attributes('-topmost', 1)
-
-    # Folder picker button
-    st.title('Folder Picker')
-    st.write('Please select a folder:')
-    clicked = st.button('Folder Picker')
-    if clicked:
-        dirname = st.text_input('Selected folder:', filedialog.askdirectory(master=root))
-    
-    st.header("Control Panel")
     st.markdown("# Control Panel 📌")
     context_level = st.slider('Context Level 👇', 1, 10, 4, 1)
     temperature = st.slider('Temperature 👇', 0.0, 2.0, 1.0, 0.5)
