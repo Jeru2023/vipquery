@@ -81,7 +81,7 @@ st.header("Welcome to Jeru's CHATBOT 🍋")
 
 options = st.multiselect(
     '请选择你要对话的数据集:(可多选)',
-    ['火锅评论', 'Home phone', 'Mobile phone'],
+    ['火锅评论', '天猫麦片爆款', 'Transformer解读-3篇'],
     ['火锅评论'])
 
 # st.write('当前数据集:', options)
