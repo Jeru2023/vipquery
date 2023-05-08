@@ -3,8 +3,6 @@ import toml
 import streamlit as st
 import embeddings.query as qa_chain
 import os
-import tkinter as tk
-from tkinter import filedialog
 from utils.folder_updater import folder_updater
 
 st.set_page_config(page_title='ChatGPT Assistant', layout='wide', page_icon='🍋')
