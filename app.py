@@ -10,8 +10,8 @@ st.set_page_config(page_title='ChatGPT Assistant', layout='wide', page_icon='üç
 #################################################################
 ##### Loading config
 #################################################################
-os.environ["http_proxy"]="http://127.0.0.1:7890"
-os.environ["https_proxy"]="http://127.0.0.1:7890"
+#os.environ["http_proxy"]="http://127.0.0.1:7890"
+#os.environ["https_proxy"]="http://127.0.0.1:7890"
 
 #################################################################
 ##### Generate response function
