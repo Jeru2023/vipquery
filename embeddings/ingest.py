@@ -2,9 +2,11 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import DirectoryLoader
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
-import sys 
-sys.path.append("..") 
+import sys
+
+sys.path.append("..")
 from utils.folder_updater import folder_updater
+
 
 def ingest(dataset_name: str) -> FAISS:
     """
@@ -41,7 +43,12 @@ def ingest(dataset_name: str) -> FAISS:
     db.save_local(persist_directory)
     return db
 
+
 def _get_embeddings():
     model = "shibing624/text2vec-base-chinese"
-    embeddings = HuggingFaceEmbeddings(model_name = model)
+    embeddings = HuggingFaceEmbeddings(model_name=model)
     return embeddings
+
+
+if __name__ == '__main__':
+    ingest('火锅负面评价_1篇')
