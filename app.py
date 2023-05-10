@@ -38,12 +38,10 @@ if not st.session_state.get("expanded"):
 with st.sidebar:
     col1, col2 = st.columns(2)
     with col1:
-        # st.title("My Folder")
         st.markdown(
-            f'''<h1 style=" padding :0">My Folder</h1>''',
-            unsafe_allow_html=True)
+            f'''<h1 style=" padding :0">My Datasets</h1>''', unsafe_allow_html=True)
     with col2:
-        mybtn = st.button("Add Folder")
+        mybtn = st.button("Create dataset folder")
         st.session_state.mybtn = mybtn
     if st.session_state.mybtn:
         st.text_input(
@@ -74,6 +72,7 @@ with st.sidebar:
     # frequency_penalty = st.slider('Frequence Penalty 👇', -2.0, 2.0, 0.0, 0.1)
     # https://platform.openai.com/docs/api-reference/completions/create
     uploaded_files = st.file_uploader(f"当前上传目录为:  {st.session_state.choice_folder}", accept_multiple_files=True)
+
     for uploaded_file in uploaded_files:
         bytes_data = uploaded_file.read()
         fu.save_files(st.session_state.choice_folder, uploaded_file.name, bytes_data)
