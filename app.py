@@ -25,6 +25,30 @@ def generate_response(question, persist_directory):
 ##### Building sidebar
 #################################################################
 with st.sidebar:
+    col1, col2 = st.columns(2)
+    with col1:
+        # st.title("My Folder")
+        st.markdown(
+            f'''<h1 style=" padding :0">My Folder</h1>''',
+            unsafe_allow_html=True)
+    with col2:
+        mybtn = st.button("Add Folder")
+        st.session_state.mybtn = mybtn
+    if st.session_state.mybtn:
+        col11, col22 = st.columns(2)
+        with col11:
+            st.text_input(
+                "",
+                label_visibility="collapsed",
+                # placeholder="pls input your folder"
+            )
+        with col22:
+            st.button("Save")
+    with st.expander("See My Folder"):
+        st.write("folder1")
+        st.write("folder2")
+        st.write("folder3")
+
     st.markdown("# Control Panel 📌")
     context_level = st.slider('Context Level 👇', 1, 10, 4, 1)
     temperature = st.slider('Temperature 👇', 0.0, 2.0, 1.0, 0.5)
