@@ -2,3 +2,7 @@ openai
 streamlit
 streamlit-option-menu
 toml
+langchain
+sentence_transformers
+faiss-cpu
+tiktoken
