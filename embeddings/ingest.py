@@ -1,6 +1,7 @@
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import DirectoryLoader
 from langchain.embeddings import HuggingFaceEmbeddings
+from sentence_transformers import SentenceTransformer
 from langchain.vectorstores import FAISS
 
 def ingest(source_directory: str, persist_directory: str) -> FAISS:
@@ -32,6 +33,6 @@ def ingest(source_directory: str, persist_directory: str) -> FAISS:
     return db
 
 def _get_embeddings():
-    model = "shibing624/text2vec-base-chinese"
-    embeddings = HuggingFaceEmbeddings(model_name = model)
+    model_name = "shibing624/text2vec-base-chinese"
+    embeddings = HuggingFaceEmbeddings(model_name=model_name)
     return embeddings

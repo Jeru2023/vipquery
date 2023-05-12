@@ -1,4 +1,5 @@
 from langchain.embeddings import HuggingFaceEmbeddings
+from sentence_transformers import SentenceTransformer
 from langchain.vectorstores import FAISS
 from langchain.chat_models import ChatOpenAI
 #from langchain.chains import ConversationalRetrievalChain
@@ -52,8 +53,8 @@ def get_system_prompt():
     return prompt
 
 def _get_embeddings():
-    model = "shibing624/text2vec-base-chinese"
-    embeddings = HuggingFaceEmbeddings(model_name = model)
+    model_name = "shibing624/text2vec-base-chinese"
+    embeddings = HuggingFaceEmbeddings(model_name=model_name)
     return embeddings
 
 def get_openai_api_key():
