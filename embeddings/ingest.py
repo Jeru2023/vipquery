@@ -46,16 +46,13 @@ def ingest(dataset_name: str) -> FAISS:
 
 
 def _get_embeddings():
-<<<<<<< HEAD
+
     model_name = "shibing624/text2vec-base-chinese"
     embeddings = HuggingFaceEmbeddings(model_name=model_name)
     return embeddings
-=======
-    model = "shibing624/text2vec-base-chinese"
-    embeddings = HuggingFaceEmbeddings(model_name=model)
-    return embeddings
 
 
+'''
 if __name__ == '__main__':
     ingest('火锅负面评价_1篇')
->>>>>>> 8aa80f997b9c0dad513db3533cb8670715f5f5f9
+'''

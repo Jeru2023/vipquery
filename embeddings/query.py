@@ -61,13 +61,9 @@ def get_system_prompt():
 
 
 def _get_embeddings():
-<<<<<<< HEAD
     model_name = "shibing624/text2vec-base-chinese"
     embeddings = HuggingFaceEmbeddings(model_name=model_name)
-=======
-    model = "shibing624/text2vec-base-chinese"
-    embeddings = HuggingFaceEmbeddings(model_name=model)
->>>>>>> 8aa80f997b9c0dad513db3533cb8670715f5f5f9
+
     return embeddings
 
 

@@ -13,12 +13,17 @@ st.set_page_config(page_title='ChatGPT Assistant', layout='wide', page_icon='üç
 #################################################################
 ##### Loading config
 #################################################################
-# os.environ["http_proxy"]="http://127.0.0.1:7890"
-# os.environ["https_proxy"]="http://127.0.0.1:7890"
+
+os.environ["http_proxy"]="http://127.0.0.1:7890"
+os.environ["https_proxy"]="http://127.0.0.1:7890"
 
 #################################################################
 ##### Generate response function
 #################################################################
+
+def generate_summary():
+    pass
+
 def generate_response(question, persist_directory):
     chain = qa_chain.get_chain(persist_directory)
     response = qa_chain.query(chain, question)
@@ -32,16 +37,18 @@ if not st.session_state.get("new_folder"):
     st.session_state.new_folder = ""
 if not st.session_state.get("expanded"):
     st.session_state.expanded = False
+    
 #################################################################
 ##### Building sidebar
 #################################################################
+
 with st.sidebar:
     col1, col2 = st.columns(2)
     with col1:
         st.markdown(
             f'''<h1 style=" padding :0">My Datasets</h1>''', unsafe_allow_html=True)
     with col2:
-        mybtn = st.button("Create dataset folder")
+        mybtn = st.button("Create Folder")
         st.session_state.mybtn = mybtn
     if st.session_state.mybtn:
         st.text_input(
@@ -84,6 +91,7 @@ with st.sidebar:
 #################################################################
 ##### Chatbox
 #################################################################	
+
 if 'past' not in st.session_state:
     st.session_state['past'] = []
 
@@ -123,8 +131,9 @@ if prompt:
 if st.session_state['generated']:
     for i in range(len(st.session_state['generated']) - 1, -1, -1):
         st.markdown(
-            f'''<div style='background:white;color:black;padding:10px'><b>**AI:**</b> {st.session_state["generated"][i]}</div>''',
-            unsafe_allow_html=True)
-        st.markdown(
             f'''<div style='background:#ddd;color:black;padding:10px'><b>**You:**</b> {st.session_state["past"][i]}</div>''',
             unsafe_allow_html=True)
+        st.markdown(
+            f'''<div style='background:white;color:black;padding:10px'><b>**AI:**</b> {st.session_state["generated"][i]}</div><br>''',
+            unsafe_allow_html=True)
+        
