@@ -21,14 +21,24 @@ os.environ["https_proxy"]="http://127.0.0.1:7890"
 ##### Generate response function
 #################################################################
 
-def generate_summary():
-    pass
+def get_persiste_directory(option):
+    folder = fu.query_uuid(option)
+    print('folder is: ', folder)
+    return f"db/{folder}"
+
+def generate_summary(question, options):
+    response = ''
+    for option in options:
+        persist_directory = get_persiste_directory(option)
+        response += f'<br><b>以下容根据{option}中内容回答</b><br><br>'
+        response += generate_response(question, persist_directory) + '<br>'
+
+    return response
 
 def generate_response(question, persist_directory):
     chain = qa_chain.get_chain(persist_directory)
     response = qa_chain.query(chain, question)
     return response
-
 
 fu = folder_updater()
 keys_list = [i for i in fu.get_key_list()]
@@ -103,17 +113,11 @@ message_log = [{"role": "user", "content": "hi"}]
 st.header("Welcome to Jeru's CHATBOT 🍋")
 
 st.session_state.options = st.multiselect(
-    '请选择你要对话的数据集:(未来可多选，暂时请单选)',
+    '请选择你要对话的数据集:(可多选)',
     keys_list,
 
 )
 options = st.session_state.options
-
-if (len(options) > 0):
-    print('dic is: ', str(fu.get_dict()))
-    folder = fu.query_uuid(options[0])
-    print('folder is: ', folder)
-    persist_directory = f"db/{folder}"
 
 prompt = st.text_input("输入问题后回车", placeholder="Enter your message here...")
 
@@ -121,8 +125,7 @@ if prompt:
     with st.spinner("Generating response..."):
         message_log.append({"role": "user", "content": prompt})
         # output = generate_response(message_log)
-        print("persist_directory: ", persist_directory)
-        output = generate_response(prompt, persist_directory)
+        output = generate_summary(prompt, options)
         message_log.append({"role": "assistant", "content": output})
         # store the output
         st.session_state['past'].append(prompt)
@@ -136,4 +139,3 @@ if st.session_state['generated']:
         st.markdown(
             f'''<div style='background:white;color:black;padding:10px'><b>**AI:**</b> {st.session_state["generated"][i]}</div><br>''',
             unsafe_allow_html=True)
-        
