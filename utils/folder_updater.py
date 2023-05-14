@@ -1,6 +1,7 @@
 import uuid
 import json
 import os.path
+from PyPDF2 import PdfReader
 
 
 class folder_updater:
@@ -51,9 +52,43 @@ class folder_updater:
         os.mkdir(new_folder_path)
         # self.update_dict()
 
+    def is_pdf_file(file_path):
+        try:
+            with open(file_path, "rb") as file:
+                # Read the first 4 bytes of the file
+                file_signature = file.read(4)
+
+                # Compare the read bytes to the PDF signature
+                if file_signature == b'%PDF':
+                    print(f"PDF file found: {file_path}")
+                    return True
+                else:
+                    return False
+        except FileNotFoundError:
+            print(f"File not found: {file_path}")
+            return False
+
     def save_files(self, folder_name, file_name, bytes_data):
         print(f"上传目录为：{folder_name},文件名：{file_name}")
         upload_folder = self.query_uuid(folder_name)
-        with open(f'./upload/{upload_folder}/{file_name}', 'wb+') as f:
+        file_path= f'./upload/{upload_folder}/{file_name}'
+        with open(file_path, 'wb+') as f:
             f.write(bytes_data)
+        with open(file_path, "rb") as file:
+            file_signature = file.read(4)
+        if file_signature == b'%PDF':
+            reader = PdfReader(file_path)
+            raw_text = ''
+            for i, page in enumerate(reader.pages):
+                text = page.extract_text()
+                if text:
+                    raw_text += text
+            name, extension = os.path.splitext(file_name)
+            # Replace the extension with '.txt'
+            new_file_name = name + '.txt'
+            new_file_name = f'./upload/{upload_folder}/{new_file_name}'
+            with open(new_file_name, 'w', encoding='utf-8') as txtfile:
+                txtfile.write(raw_text)
+                txtfile.close()
+
 
