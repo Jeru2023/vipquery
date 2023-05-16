@@ -2,9 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dbfec01b-a61c-4c8a-81c9-f4cf9266466c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.streamlit/config.bak" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/15b6dc8d-d037-4e58-8d92-01bb45b02cd6/index.faiss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/15b6dc8d-d037-4e58-8d92-01bb45b02cd6/index.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/99c4e618-9ff1-4021-ad31-448169679969/index.faiss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/99c4e618-9ff1-4021-ad31-448169679969/index.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/f373c5e5-eaae-49b8-aec0-3a3bf0783e5b/index.faiss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/f373c5e5-eaae-49b8-aec0-3a3bf0783e5b/index.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/index.faiss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/upload/15b6dc8d-d037-4e58-8d92-01bb45b02cd6/kate howland.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/upload/99c4e618-9ff1-4021-ad31-448169679969/huyu.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/upload/f373c5e5-eaae-49b8-aec0-3a3bf0783e5b/seesaw-2023.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.streamlit/config.toml" beforeDir="false" afterPath="$PROJECT_DIR$/.streamlit/config.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/875bd5df-4835-4d99-ba60-7c582578a246/index.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db/875bd5df-4835-4d99-ba60-7c582578a246/index.pkl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/embeddings/ingest.py" beforeDir="false" afterPath="$PROJECT_DIR$/embeddings/ingest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/embeddings/query.py" beforeDir="false" afterPath="$PROJECT_DIR$/embeddings/query.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/folder_dict.json" beforeDir="false" afterPath="$PROJECT_DIR$/folder_dict.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/folder_updater.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/folder_updater.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +157,7 @@
       <workItem from="1683356145762" duration="1355000" />
       <workItem from="1683362841388" duration="10107000" />
       <workItem from="1683683489205" duration="16300000" />
-      <workItem from="1684133289636" duration="11870000" />
+      <workItem from="1684133289636" duration="12515000" />
     </task>
     <servers />
   </component>

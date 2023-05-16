@@ -13,42 +13,66 @@ st.set_page_config(page_title='ChatGPT Assistant', layout='wide', page_icon='�
 #################################################################
 ##### Loading config
 #################################################################
-# os.environ["http_proxy"]="http://127.0.0.1:7890"
-# os.environ["https_proxy"]="http://127.0.0.1:7890"
+
+os.environ["http_proxy"]="http://127.0.0.1:7890"
+os.environ["https_proxy"]="http://127.0.0.1:7890"
 
 #################################################################
 ##### Generate response function
 #################################################################
+
+def get_persiste_directory(option):
+    folder = fu.query_uuid(option)
+    print('folder is: ', folder)
+    return f"db/{folder}"
+
+def generate_summary(question, options):
+    response = ''
+    for option in options:
+        persist_directory = get_persiste_directory(option)
+        response += f'<br><b>以下容根据{option}中内容回答</b><br><br>'
+        response += generate_response(question, persist_directory) + '<br>'
+
+    return response
+
 def generate_response(question, persist_directory):
     chain = qa_chain.get_chain(persist_directory)
     response = qa_chain.query(chain, question)
     return response
 
+<<<<<<< HEAD
 
 def query_change():
     st.session_state.on_change = True
 
 
+=======
+>>>>>>> 4cfeb84e00ecf35eb0f8f6af85b27e7ae726938f
 fu = folder_updater()
 keys_list = [i for i in fu.get_key_list()]
 if not st.session_state.get("new_folder"):
     st.session_state.new_folder = ""
 if not st.session_state.get("expanded"):
     st.session_state.expanded = False
+<<<<<<< HEAD
 if not st.session_state.get("file_change"):
     st.session_state.file_change = []
 if not st.session_state.get('on_change'):
     st.session_state.on_change = False
+=======
+    
+>>>>>>> 4cfeb84e00ecf35eb0f8f6af85b27e7ae726938f
 #################################################################
 ##### Building sidebar
 #################################################################
+
 with st.sidebar:
     col1, col2 = st.columns(2)
     with col1:
         st.markdown(
             f'''<h1 style=" padding :0">My Datasets</h1>''', unsafe_allow_html=True)
     with col2:
-        mybtn = st.button("Create dataset folder")
+        mybtn = st.button("Create Folder")
         st.session_state.mybtn = mybtn
     if st.session_state.mybtn:
         st.text_input(
@@ -104,6 +128,7 @@ with st.sidebar:
 #################################################################
 ##### Chatbox
 #################################################################	
+
 if 'past' not in st.session_state:
     st.session_state['past'] = []
 
@@ -115,12 +140,13 @@ message_log = [{"role": "user", "content": "hi"}]
 st.header("Welcome to Jeru's CHATBOT 🍋")
 
 st.session_state.options = st.multiselect(
-    '请选择你要对话的数据集:(未来可多选，暂时请单选)',
+    '请选择你要对话的数据集:(可多选)',
     keys_list,
 
 )
 options = st.session_state.options
 
+<<<<<<< HEAD
 if (len(options) > 0):
     print('dic is: ', str(fu.get_dict()))
     folder = fu.query_uuid(options[0])
@@ -134,11 +160,20 @@ st.text_input(
     on_change=query_change
 )
 if st.session_state.query and len(options) > 0 and st.session_state.on_change:
+=======
+prompt = st.text_input("输入问题后回车", placeholder="Enter your message here...")
+
+if prompt:
+>>>>>>> 4cfeb84e00ecf35eb0f8f6af85b27e7ae726938f
     with st.spinner("Generating response..."):
         message_log.append({"role": "user", "content": st.session_state.query})
         # output = generate_response(message_log)
+<<<<<<< HEAD
         print("persist_directory: ", persist_directory)
         output = generate_response(st.session_state.query, persist_directory)
+=======
+        output = generate_summary(prompt, options)
+>>>>>>> 4cfeb84e00ecf35eb0f8f6af85b27e7ae726938f
         message_log.append({"role": "assistant", "content": output})
         # store the output
         st.session_state['past'].append(st.session_state.query)
@@ -149,11 +184,14 @@ if st.session_state.query and len(options) > 0 and st.session_state.on_change:
 if st.session_state['generated']:
     for i in range(len(st.session_state['generated']) - 1, -1, -1):
         st.markdown(
-            f'''<div style='background:white;color:black;padding:10px'><b>**AI:**</b> {st.session_state["generated"][i]}</div>''',
-            unsafe_allow_html=True)
-        st.markdown(
             f'''<div style='background:#ddd;color:black;padding:10px'><b>**You:**</b> {st.session_state["past"][i]}</div>''',
             unsafe_allow_html=True)
+<<<<<<< HEAD
 
 st.session_state.on_change = False
 #
+=======
+        st.markdown(
+            f'''<div style='background:white;color:black;padding:10px'><b>**AI:**</b> {st.session_state["generated"][i]}</div><br>''',
+            unsafe_allow_html=True)
+>>>>>>> 4cfeb84e00ecf35eb0f8f6af85b27e7ae726938f

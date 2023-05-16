@@ -1,9 +1,11 @@
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import DirectoryLoader
 from langchain.embeddings import HuggingFaceEmbeddings
+from sentence_transformers import SentenceTransformer
 from langchain.vectorstores import FAISS
 import sys
 import os
+
 sys.path.append("..")
 from utils.folder_updater import folder_updater
 
@@ -44,6 +46,7 @@ def split_comment_file(source_directory):
                             f.write(f'{comment}\n')
             os.remove(file_path)
 
+
 def ingest(dataset_name: str) -> FAISS:
     """
     Ingests text documents from a source directory, processes them,
@@ -82,10 +85,12 @@ def ingest(dataset_name: str) -> FAISS:
 
 
 def _get_embeddings():
-    model = "shibing624/text2vec-base-chinese"
-    embeddings = HuggingFaceEmbeddings(model_name=model)
+    model_name = "shibing624/text2vec-base-chinese"
+    embeddings = HuggingFaceEmbeddings(model_name=model_name)
     return embeddings
 
 
+'''
 if __name__ == '__main__':
     ingest('火锅负面评价_1篇')
+'''

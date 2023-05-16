@@ -26,13 +26,17 @@ def test_query(text):
     response = qa_chain.query(chain, question)
     print(response)
 
+
+#test_query()
+
 #test_ingest()
 #text = '用最简单的语言解释transformer是什么'
 #test_query(text)'''
 
 #print(fu.query_uuid('火锅负面评价-1篇'))
 
-print(fu.get_key_list())
+#print(fu.get_key_list())
 
-folder_name='Seesaw负面评论2022年1-4月'
-ingest(folder_name)
+#folder_name='Seesaw负面评论2022年1-4月'
+#ingest(folder_name)
+
