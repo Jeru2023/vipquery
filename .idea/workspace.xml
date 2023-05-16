@@ -4,20 +4,11 @@
     <list default="true" id="dbfec01b-a61c-4c8a-81c9-f4cf9266466c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/875bd5df-4835-4d99-ba60-7c582578a246/index.faiss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/875bd5df-4835-4d99-ba60-7c582578a246/index.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/8ee6b8e9-9da8-4a2a-9c13-824b57edad02/index.faiss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/8ee6b8e9-9da8-4a2a-9c13-824b57edad02/index.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/a43276be-e6f9-415c-bd83-d17c0bcf4605/index.faiss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/a43276be-e6f9-415c-bd83-d17c0bcf4605/index.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/embeddings/ingest.py" beforeDir="false" afterPath="$PROJECT_DIR$/embeddings/ingest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/embeddings/query.py" beforeDir="false" afterPath="$PROJECT_DIR$/embeddings/query.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/upload/875bd5df-4835-4d99-ba60-7c582578a246/reviews.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/upload/8ee6b8e9-9da8-4a2a-9c13-824b57edad02/Transformer模型详解.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/upload/8ee6b8e9-9da8-4a2a-9c13-824b57edad02/十分钟理解Transformer.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/upload/8ee6b8e9-9da8-4a2a-9c13-824b57edad02/详解Transformer （Attention Is All You Need）.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/upload/a43276be-e6f9-415c-bd83-d17c0bcf4605/seesaw.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/folder_updater.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/folder_updater.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/8ee6b8e9-9da8-4a2a-9c13-824b57edad02/index.faiss" beforeDir="false" afterPath="$PROJECT_DIR$/db/8ee6b8e9-9da8-4a2a-9c13-824b57edad02/index.faiss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/8ee6b8e9-9da8-4a2a-9c13-824b57edad02/index.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db/8ee6b8e9-9da8-4a2a-9c13-824b57edad02/index.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/a43276be-e6f9-415c-bd83-d17c0bcf4605/index.faiss" beforeDir="false" afterPath="$PROJECT_DIR$/db/a43276be-e6f9-415c-bd83-d17c0bcf4605/index.faiss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/a43276be-e6f9-415c-bd83-d17c0bcf4605/index.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/db/a43276be-e6f9-415c-bd83-d17c0bcf4605/index.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/folder_dict.json" beforeDir="false" afterPath="$PROJECT_DIR$/folder_dict.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,14 +36,16 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_MARK_IGNORED_FILES_AS_EXCLUDED" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.streamlit" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/.streamlit" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/seesaw" />
     </key>
@@ -119,7 +112,8 @@
       <updated>1683356143358</updated>
       <workItem from="1683356145762" duration="1355000" />
       <workItem from="1683362841388" duration="10107000" />
-      <workItem from="1683683489205" duration="14939000" />
+      <workItem from="1683683489205" duration="16300000" />
+      <workItem from="1684133289636" duration="8190000" />
     </task>
     <servers />
   </component>
