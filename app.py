@@ -40,14 +40,28 @@ def generate_response(question, persist_directory):
     response = qa_chain.query(chain, question)
     return response
 
+<<<<<<< HEAD
+
+def query_change():
+    st.session_state.on_change = True
+
+
+=======
+>>>>>>> 4cfeb84e00ecf35eb0f8f6af85b27e7ae726938f
 fu = folder_updater()
 keys_list = [i for i in fu.get_key_list()]
-
 if not st.session_state.get("new_folder"):
     st.session_state.new_folder = ""
 if not st.session_state.get("expanded"):
     st.session_state.expanded = False
+<<<<<<< HEAD
+if not st.session_state.get("file_change"):
+    st.session_state.file_change = []
+if not st.session_state.get('on_change'):
+    st.session_state.on_change = False
+=======
     
+>>>>>>> 4cfeb84e00ecf35eb0f8f6af85b27e7ae726938f
 #################################################################
 ##### Building sidebar
 #################################################################
@@ -88,15 +102,28 @@ with st.sidebar:
     # presence_penalty = st.slider('Presence Penalty 👇', -2.0, 2.0, 0.0, 0.1)
     # frequency_penalty = st.slider('Frequence Penalty 👇', -2.0, 2.0, 0.0, 0.1)
     # https://platform.openai.com/docs/api-reference/completions/create
-    uploaded_files = st.file_uploader(f"当前上传目录为:  {st.session_state.choice_folder}", accept_multiple_files=True)
-
-    for uploaded_file in uploaded_files:
+    # if st.session_state.get('uploaded_files'):
+    #     # print(st.session_state.get('uploaded_files'))
+    #     # st.session_state['uploaded_files'] = []
+    #     del st.session_state['uploaded_files']
+    # if st.session_state['uploaded_files'].__len__() > 0:
+    #     del st.session_state['uploaded_files']
+    st.file_uploader(
+        f"当前上传目录为:  {st.session_state.choice_folder}",
+        accept_multiple_files=True,
+        key='uploaded_files'
+    )
+    print(st.session_state['uploaded_files'])
+    for uploaded_file in st.session_state['uploaded_files']:
         bytes_data = uploaded_file.read()
         fu.save_files(st.session_state.choice_folder, uploaded_file.name, bytes_data)
-    if len(uploaded_files) > 0:
+    if len(st.session_state['uploaded_files']) > 0 and st.session_state.file_change != st.session_state[
+        'uploaded_files']:
         print(st.session_state.choice_folder)
         ingest(st.session_state.choice_folder)
         print("ingest success")
+        st.session_state.file_change = st.session_state['uploaded_files']
+        del st.session_state['uploaded_files']
 
 #################################################################
 ##### Chatbox
@@ -119,23 +146,52 @@ st.session_state.options = st.multiselect(
 )
 options = st.session_state.options
 
+<<<<<<< HEAD
+if (len(options) > 0):
+    print('dic is: ', str(fu.get_dict()))
+    folder = fu.query_uuid(options[0])
+    print('folder is: ', folder)
+    persist_directory = f"db/{folder}"
+
+st.text_input(
+    "输入问题后回车",
+    placeholder="Enter your message here...",
+    key="query",
+    on_change=query_change
+)
+if st.session_state.query and len(options) > 0 and st.session_state.on_change:
+=======
 prompt = st.text_input("输入问题后回车", placeholder="Enter your message here...")
 
 if prompt:
+>>>>>>> 4cfeb84e00ecf35eb0f8f6af85b27e7ae726938f
     with st.spinner("Generating response..."):
-        message_log.append({"role": "user", "content": prompt})
+        message_log.append({"role": "user", "content": st.session_state.query})
         # output = generate_response(message_log)
+<<<<<<< HEAD
+        print("persist_directory: ", persist_directory)
+        output = generate_response(st.session_state.query, persist_directory)
+=======
         output = generate_summary(prompt, options)
+>>>>>>> 4cfeb84e00ecf35eb0f8f6af85b27e7ae726938f
         message_log.append({"role": "assistant", "content": output})
         # store the output
-        st.session_state['past'].append(prompt)
+        st.session_state['past'].append(st.session_state.query)
         st.session_state['generated'].append(output)
+        # del st.session_state.query
+        # st.session_state.options_num = len(options)
 
 if st.session_state['generated']:
     for i in range(len(st.session_state['generated']) - 1, -1, -1):
         st.markdown(
             f'''<div style='background:#ddd;color:black;padding:10px'><b>**You:**</b> {st.session_state["past"][i]}</div>''',
             unsafe_allow_html=True)
+<<<<<<< HEAD
+
+st.session_state.on_change = False
+#
+=======
         st.markdown(
             f'''<div style='background:white;color:black;padding:10px'><b>**AI:**</b> {st.session_state["generated"][i]}</div><br>''',
             unsafe_allow_html=True)
+>>>>>>> 4cfeb84e00ecf35eb0f8f6af85b27e7ae726938f
