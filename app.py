@@ -29,6 +29,7 @@ def get_persiste_directory(option):
 def generate_summary(question, options):
     response = ''
     for option in options:
+        print(f'option is {option}')
         persist_directory = get_persiste_directory(option)
         response += f'<br><b>以下容根据{option}中内容回答</b><br><br>'
         response += generate_response(question, persist_directory) + '<br>'
@@ -111,9 +112,11 @@ with st.sidebar:
         key='uploaded_files'
     )
     print(st.session_state['uploaded_files'])
+    
     for uploaded_file in st.session_state['uploaded_files']:
         bytes_data = uploaded_file.read()
         fu.save_files(st.session_state.choice_folder, uploaded_file.name, bytes_data)
+        
     if len(st.session_state['uploaded_files']) > 0 and st.session_state.file_change != st.session_state[
         'uploaded_files']:
         print(st.session_state.choice_folder)
@@ -154,7 +157,7 @@ if st.session_state.query and len(options) > 0 and st.session_state.on_change:
     with st.spinner("Generating response..."):
         message_log.append({"role": "user", "content": st.session_state.query})
         # output = generate_response(message_log)
-        output = generate_response(st.session_state.query, options)
+        output = generate_summary(st.session_state.query, options)
 
         message_log.append({"role": "assistant", "content": output})
         # store the output
