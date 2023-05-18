@@ -26,18 +26,18 @@ def get_persiste_directory(option):
     print('folder is: ', folder)
     return f"db/{folder}"
 
-def generate_summary(question, options, verbose):
+def generate_summary(question, options, **chain_kwargs):
     response = ''
     for option in options:
         print(f'option is {option}')
         persist_directory = get_persiste_directory(option)
         response += f'<br><b>以下容根据{option}中内容回答</b><br><br>'
-        response += generate_response(question, persist_directory, verbose) + '<br>'
+        response += generate_response(question, persist_directory, **chain_kwargs) + '<br>'
 
     return response
 
-def generate_response(question, persist_directory, verbose):
-    response = qa_chain.query(question, persist_directory, verbose)
+def generate_response(question, persist_directory, **chain_kwargs):
+    response = qa_chain.query(question, persist_directory, **chain_kwargs)
     return response
 
 def query_change():
@@ -146,11 +146,7 @@ options = col1.multiselect(
 
 )
 
-chain_option = col2.selectbox(
-    'Select Chain Type 👇',
-    ('Email', 'Home phone', 'Mobile phone'))
-
-verbose = st.checkbox(label="Enable Chain of Thought", value=True)
+verbose = col2.checkbox(label="Enable Chain of Thought", value=True)
 
 st.text_input(
     "输入问题后回车",
@@ -160,9 +156,11 @@ st.text_input(
 )
 if st.session_state.query and len(options) > 0 and st.session_state.on_change:
     with st.spinner("Generating response..."):
+        chain_kwargs = {'verbose': verbose}
+
         message_log.append({"role": "user", "content": st.session_state.query})
         # output = generate_response(message_log)
-        output = generate_summary(st.session_state.query, options, verbose)
+        output = generate_summary(st.session_state.query, options, **chain_kwargs)
 
         message_log.append({"role": "assistant", "content": output})
         # store the output

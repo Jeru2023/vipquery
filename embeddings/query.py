@@ -1,8 +1,6 @@
 from langchain.embeddings import HuggingFaceEmbeddings
-from sentence_transformers import SentenceTransformer
 from langchain.vectorstores import FAISS
 from langchain.chat_models import ChatOpenAI
-# from langchain.chains import ConversationalRetrievalChain
 from langchain.chains import RetrievalQAWithSourcesChain
 import os
 import toml
@@ -17,44 +15,30 @@ from langchain.prompts.chat import (
     HumanMessagePromptTemplate,
 )
 
-'''
-def query():
-    db = FAISS.load_local("faiss_index", _get_embeddings())
-    model = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0.5,
-                       openai_api_key=get_openai_api_key(), streaming=True)  # max temperature is 2 least is 0
-    retriever = db.as_retriever(search_kwargs={
-                                         "k": sources},  qa_template=SYSTEM_PROMPT_CN, question_generator_template=CONDENSE_PROMPT)  # 9 is the max sources
-    qa = ConversationalRetrievalChain.from_llm(
-        llm=model, retriever=retriever, return_source_documents=True)
-    return qa
-'''
-
-
-def query(question, persist_directory, verbose):
-    chain = get_chain(persist_directory, verbose)
+def query(question, persist_directory, **chain_kwargs):
+    chain = get_chain(persist_directory, **chain_kwargs)
     response = chain({"question": question})
     return response['answer']
 
 
-def get_chain(persist_directory, verbose):
+def get_chain(persist_directory, **chain_kwargs):
     db = FAISS.load_local(persist_directory, _get_embeddings())
 
     model = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0,
                        openai_api_key=get_openai_api_key(), streaming=True)
     chain_type_kwargs = {
-        #"k": 20,  # Set the number of documents to be retrieved
         "prompt": get_system_prompt()
-        # Add any other necessary kwargs
     }
     chain = RetrievalQAWithSourcesChain.from_chain_type(
-        llm=model,
-        chain_type="stuff",
-        retriever=db.as_retriever(),
-        chain_type_kwargs=chain_type_kwargs,
+        llm = model,
+        chain_type = "stuff",
+        retriever=db.as_retriever(), #search_kwargs={"k": 5}
+        chain_type_kwargs = chain_type_kwargs,
         reduce_k_below_max_tokens=True,
-        verbose=verbose
+        verbose = chain_kwargs['verbose'],
     )
     return chain
+
 
 
 def get_system_prompt():

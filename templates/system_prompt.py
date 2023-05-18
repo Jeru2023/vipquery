@@ -8,9 +8,13 @@ Use as much detail when as possible when responding.
 Question: {question}
 Helpful answer in markdown format:"""
 
-SYSTEM_PROMPT_CN = """使用上下文回答问题, 如果问题和上下文无关就说我无法在上下文中找到答案. 不要编造。
-每个答案后面都带上"Sources", "Sources"是回答问题所引用的文档.
+SYSTEM_PROMPT_CN = """Given the following extracted parts of a long document and a question, create a final answer with references ("SOURCES"). 
+If you don't know the answer, just say that you don't know. Don't try to make up an answer.
+ALWAYS return a "SOURCES" part in your answer.
+Respond in Chinese.
 
+QUESTION: {question}
+=========
 {summaries}
-
-"""
+=========
+FINAL ANSWER IN CHINESE:"""
