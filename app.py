@@ -26,22 +26,19 @@ def get_persiste_directory(option):
     print('folder is: ', folder)
     return f"db/{folder}"
 
-def generate_summary(question, options):
+def generate_summary(question, options, verbose):
     response = ''
     for option in options:
         print(f'option is {option}')
         persist_directory = get_persiste_directory(option)
         response += f'<br><b>以下容根据{option}中内容回答</b><br><br>'
-        response += generate_response(question, persist_directory) + '<br>'
+        response += generate_response(question, persist_directory, verbose) + '<br>'
 
     return response
 
-def generate_response(question, persist_directory):
-    chain = qa_chain.get_chain(persist_directory)
-    response = qa_chain.query(chain, question)
+def generate_response(question, persist_directory, verbose):
+    response = qa_chain.query(question, persist_directory, verbose)
     return response
-
-
 
 def query_change():
     st.session_state.on_change = True
@@ -106,24 +103,25 @@ with st.sidebar:
     #     del st.session_state['uploaded_files']
     # if st.session_state['uploaded_files'].__len__() > 0:
     #     del st.session_state['uploaded_files']
+
     st.file_uploader(
         f"当前上传目录为:  {st.session_state.choice_folder}",
         accept_multiple_files=True,
         key='uploaded_files'
     )
-    print(st.session_state['uploaded_files'])
-    
-    for uploaded_file in st.session_state['uploaded_files']:
-        bytes_data = uploaded_file.read()
-        fu.save_files(st.session_state.choice_folder, uploaded_file.name, bytes_data)
         
-    if len(st.session_state['uploaded_files']) > 0 and st.session_state.file_change != st.session_state[
-        'uploaded_files']:
-        print(st.session_state.choice_folder)
-        ingest(st.session_state.choice_folder)
-        print("ingest success")
-        st.session_state.file_change = st.session_state['uploaded_files']
-        del st.session_state['uploaded_files']
+    if st.session_state.get('uploaded_files'):
+        for uploaded_file in st.session_state['uploaded_files']:
+            bytes_data = uploaded_file.read()
+            fu.save_files(st.session_state.choice_folder, uploaded_file.name, bytes_data)
+            
+        if len(st.session_state['uploaded_files']) > 0 and st.session_state.file_change != st.session_state[
+            'uploaded_files']:
+            print(st.session_state.choice_folder)
+            ingest(st.session_state.choice_folder)
+            print("ingest success")
+            st.session_state.file_change = st.session_state['uploaded_files']
+            del st.session_state['uploaded_files']
 
 #################################################################
 ##### Chatbox
@@ -139,13 +137,20 @@ message_log = [{"role": "user", "content": "hi"}]
 
 st.header("Welcome to Jeru's CHATBOT 🍋")
 
-st.session_state.options = st.multiselect(
+
+
+col1, col2 = st.columns(2)
+options = col1.multiselect(
     '请选择你要对话的数据集:(可多选)',
     keys_list,
 
 )
-options = st.session_state.options
 
+chain_option = col2.selectbox(
+    'Select Chain Type 👇',
+    ('Email', 'Home phone', 'Mobile phone'))
+
+verbose = st.checkbox(label="Enable Chain of Thought", value=True)
 
 st.text_input(
     "输入问题后回车",
@@ -157,14 +162,14 @@ if st.session_state.query and len(options) > 0 and st.session_state.on_change:
     with st.spinner("Generating response..."):
         message_log.append({"role": "user", "content": st.session_state.query})
         # output = generate_response(message_log)
-        output = generate_summary(st.session_state.query, options)
+        output = generate_summary(st.session_state.query, options, verbose)
 
         message_log.append({"role": "assistant", "content": output})
         # store the output
         st.session_state['past'].append(st.session_state.query)
         st.session_state['generated'].append(output)
         # del st.session_state.query
-        # st.session_state.options_num = len(options)
+
 
 if st.session_state['generated']:
     for i in range(len(st.session_state['generated']) - 1, -1, -1):

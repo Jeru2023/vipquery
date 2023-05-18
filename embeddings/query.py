@@ -30,23 +30,29 @@ def query():
 '''
 
 
-def query(chain, question):
+def query(question, persist_directory, verbose):
+    chain = get_chain(persist_directory, verbose)
     response = chain({"question": question})
     return response['answer']
 
 
-def get_chain(persist_directory):
+def get_chain(persist_directory, verbose):
     db = FAISS.load_local(persist_directory, _get_embeddings())
-    chain_type_kwargs = {"prompt": get_system_prompt()}
 
     model = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0,
                        openai_api_key=get_openai_api_key(), streaming=True)
+    chain_type_kwargs = {
+        #"k": 20,  # Set the number of documents to be retrieved
+        "prompt": get_system_prompt()
+        # Add any other necessary kwargs
+    }
     chain = RetrievalQAWithSourcesChain.from_chain_type(
         llm=model,
         chain_type="stuff",
         retriever=db.as_retriever(),
         chain_type_kwargs=chain_type_kwargs,
-        reduce_k_below_max_tokens=True
+        reduce_k_below_max_tokens=True,
+        verbose=verbose
     )
     return chain
 
