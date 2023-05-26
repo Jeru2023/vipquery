@@ -9,13 +9,13 @@ from utils.folder_updater import folder_updater
 
 st.set_page_config(page_title='ChatGPT Assistant', layout='wide', page_icon='🍋')
 
-
 #################################################################
 ##### Loading config
 #################################################################
 
-os.environ["http_proxy"]="http://127.0.0.1:7890"
-os.environ["https_proxy"]="http://127.0.0.1:7890"
+os.environ["http_proxy"] = "http://127.0.0.1:7890"
+os.environ["https_proxy"] = "http://127.0.0.1:7890"
+
 
 #################################################################
 ##### Generate response function
@@ -25,6 +25,7 @@ def get_persiste_directory(option):
     folder = fu.query_uuid(option)
     print('folder is: ', folder)
     return f"db/{folder}"
+
 
 def generate_summary(question, options, **chain_kwargs):
     response = ''
@@ -36,9 +37,11 @@ def generate_summary(question, options, **chain_kwargs):
 
     return response
 
+
 def generate_response(question, persist_directory, **chain_kwargs):
     response = qa_chain.query(question, persist_directory, **chain_kwargs)
     return response
+
 
 def query_change():
     st.session_state.on_change = True
@@ -56,6 +59,8 @@ if not st.session_state.get("file_change"):
     st.session_state.file_change = []
 if not st.session_state.get('on_change'):
     st.session_state.on_change = False
+if not st.session_state.get('is_split'):
+    st.session_state.is_split = "是"
 
 #################################################################
 ##### Building sidebar
@@ -103,22 +108,33 @@ with st.sidebar:
     #     del st.session_state['uploaded_files']
     # if st.session_state['uploaded_files'].__len__() > 0:
     #     del st.session_state['uploaded_files']
+    # st.radio(
+    #     "文件是否切割",
+    #     key="is_split",
+    #     options=["是", "否"],
+    # )
 
+    with st.expander("文件是否切割", expanded=st.session_state.expanded):
+        st.radio(
+            "文件是否切割",
+            ["是", "否"],
+            label_visibility="collapsed",
+            key="is_split"
+        )
     st.file_uploader(
         f"当前上传目录为:  {st.session_state.choice_folder}",
         accept_multiple_files=True,
         key='uploaded_files'
     )
-        
     if st.session_state.get('uploaded_files'):
         for uploaded_file in st.session_state['uploaded_files']:
             bytes_data = uploaded_file.read()
             fu.save_files(st.session_state.choice_folder, uploaded_file.name, bytes_data)
-            
+
         if len(st.session_state['uploaded_files']) > 0 and st.session_state.file_change != st.session_state[
             'uploaded_files']:
             print(st.session_state.choice_folder)
-            ingest(st.session_state.choice_folder)
+            ingest(st.session_state.choice_folder, True if st.session_state.is_split == "是" else False)
             print("ingest success")
             st.session_state.file_change = st.session_state['uploaded_files']
             del st.session_state['uploaded_files']
@@ -136,8 +152,6 @@ if "generated" not in st.session_state:
 message_log = [{"role": "user", "content": "hi"}]
 
 st.header("Welcome to Jeru's CHATBOT 🍋")
-
-
 
 col1, col2 = st.columns(2)
 options = col1.multiselect(
@@ -167,7 +181,6 @@ if st.session_state.query and len(options) > 0 and st.session_state.on_change:
         st.session_state['past'].append(st.session_state.query)
         st.session_state['generated'].append(output)
         # del st.session_state.query
-
 
 if st.session_state['generated']:
     for i in range(len(st.session_state['generated']) - 1, -1, -1):

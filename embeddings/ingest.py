@@ -10,7 +10,7 @@ sys.path.append("..")
 from utils.folder_updater import folder_updater
 
 
-def ingest(dataset_name: str) -> FAISS:
+def ingest(dataset_name: str, is_split) -> FAISS:
     """
     Ingests text documents from a source directory, processes them,
     and saves them to a persist directory.
@@ -31,13 +31,15 @@ def ingest(dataset_name: str) -> FAISS:
     loader = DirectoryLoader(source_directory, glob='**/*.txt')
     documents = loader.load()
     print(documents)
-
-    # Split text into chunks
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000, chunk_overlap=0
-    )
-    docs = text_splitter.split_documents(documents)
-    print(docs)
+    if is_split:
+        # Split text into chunks
+        text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=1000, chunk_overlap=0
+        )
+        docs = text_splitter.split_documents(documents)
+        print(docs)
+    else:
+        docs = documents
 
     # Get document embeddings and store them in a FAISS index
     embeddings = _get_embeddings()
