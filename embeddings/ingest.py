@@ -30,7 +30,7 @@ def ingest(dataset_name: str, is_split) -> FAISS:
     # Load text documents from source directory
     loader = DirectoryLoader(source_directory, glob='**/*.txt')
     documents = loader.load()
-    print(documents)
+    # print(documents)
     if is_split:
         # Split text into chunks
         text_splitter = RecursiveCharacterTextSplitter(
@@ -40,7 +40,7 @@ def ingest(dataset_name: str, is_split) -> FAISS:
         print(docs)
     else:
         docs = documents
-
+    print(documents)
     # Get document embeddings and store them in a FAISS index
     embeddings = _get_embeddings()
     db = FAISS.from_documents(docs, embeddings)

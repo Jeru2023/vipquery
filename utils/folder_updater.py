@@ -2,6 +2,7 @@ import uuid
 import json
 import os.path
 from PyPDF2 import PdfReader
+from docx import Document
 
 
 class folder_updater:
@@ -71,7 +72,7 @@ class folder_updater:
     def save_files(self, folder_name, file_name, bytes_data):
         print(f"上传目录为：{folder_name},文件名：{file_name}")
         upload_folder = self.query_uuid(folder_name)
-        file_path= f'./upload/{upload_folder}/{file_name}'
+        file_path = f'./upload/{upload_folder}/{file_name}'
         with open(file_path, 'wb+') as f:
             f.write(bytes_data)
         with open(file_path, "rb") as file:
@@ -90,5 +91,19 @@ class folder_updater:
             with open(new_file_name, 'w', encoding='utf-8') as txtfile:
                 txtfile.write(raw_text)
                 txtfile.close()
+            os.remove(file_path)  # 转化成功后删除原始文件
+        elif file_name.endswith('doc') or file_name.endswith('docx'):
+            txt_file_path = f'./upload/{upload_folder}/{file_name.rstrip("doc").rstrip("docx")}.txt'
+            print(txt_file_path)
+            self.convert_docx_to_txt(file_path, txt_file_path)
+            os.remove(file_path)
+        else:
+            pass
 
+    def convert_docx_to_txt(self, docx_path, txt_path):
+        doc = Document(docx_path)
+        paragraphs = [p.text for p in doc.paragraphs]
+        text = "\n".join(paragraphs)
 
+        with open(txt_path, "w", encoding="utf-8") as f:
+            f.write(text)
